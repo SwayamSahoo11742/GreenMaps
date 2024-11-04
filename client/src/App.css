@@ -9,6 +9,12 @@
   height: 40vmin;
   pointer-events: none;
 }
+.card-overlay {
+  position: absolute;
+  z-index: 1000;
+}
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
