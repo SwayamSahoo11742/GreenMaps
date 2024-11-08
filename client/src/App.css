@@ -10,11 +10,31 @@
   pointer-events: none;
 }
 .card-overlay {
+  width: 20%;
   position: absolute;
   z-index: 1000;
 }
 
+#bike {
+  bottom: 17.5%
+}
 
+#train {
+  bottom: 33%
+}
+
+#bus {
+  bottom: 49%
+}
+
+#uber {
+  bottom: 65%
+}
+
+
+#car {
+  bottom: 81%
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
