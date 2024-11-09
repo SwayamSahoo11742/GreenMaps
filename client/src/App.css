@@ -1,6 +1,18 @@
 .App {
   text-align: center;
 }
+.leaflet-routing-container{
+  visibility: hidden;
+}
+.bar {
+  background: rgb(237,34,34);
+  background: linear-gradient(90deg, rgba(237,34,34,1) 0%, rgba(150,223,24,1) 0%, rgba(1,135,41,1) 100%);
+  background-size: 200% 100%; /* Adjusts the gradient size */
+  background-position: 0 0; /* Ensures it starts at the left */
+  transition: width 0.3s ease, background-position 0.3s ease; /* Smooth transition */
+}
+
+
 .leaflet-container{
   width: 100vw;
   height: 100vh;
