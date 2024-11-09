@@ -16,24 +16,24 @@
 }
 
 #bike {
-  bottom: 17.5%
+  bottom: 17%
 }
 
 #train {
-  bottom: 33%
+  bottom: 33.5%
 }
 
 #bus {
-  bottom: 49%
+  bottom: 50%
 }
 
 #uber {
-  bottom: 65%
+  bottom: 66.5%
 }
 
 
 #car {
-  bottom: 81%
+  bottom: 83%
 }
 
 @media (prefers-reduced-motion: no-preference) {

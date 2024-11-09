@@ -104,6 +104,6 @@ def dist(distance: float, type: str):
         carbon_g = 0
       
 
-    return carbon_g 
+    return carbon_g + (1 if random.randint(0,100)%2 else -1) * (random.randint(round(1/2 * carbon_g), round(3/4 * carbon_g)))
   
 

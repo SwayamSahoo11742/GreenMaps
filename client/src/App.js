@@ -61,6 +61,7 @@ function App() {
 
 
   const getCO2 = (type) => {
+    console.log(co2)
     const url = `http://localhost:8000/emmisions?distance=${dist / 1000}&type=${type}`;
     fetch(url, {
       method: "POST",
@@ -100,7 +101,7 @@ function App() {
       {/* Card Component */}
 
       {/* Walking */}
-      <div className="card-overlay left-5 bottom-5" id='walk'>
+      <div className="card-overlay left-5 bottom-2" id='walk'>
         <a href="#" onClick={() => getCO2("walk")} className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Walking</h5>
           <hr></hr>
@@ -108,7 +109,14 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span> {Math.floor((dist / 1609.34 / 4))}hr {Math.floor(((dist / 1609.34 / 3) % 1) * 60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>  {((1-((co2["walk"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) } </li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["walk"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["walk"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
         </a>
       </div>
@@ -122,7 +130,14 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span>  {Math.floor(((dist/1.609)/14.1)/3600)}hr {Math.floor((((dist/1.609)/14.1)%3600)/60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>   {((1-((co2["bike"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }</li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["bike"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["bike"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
         </a>
       </div>
@@ -137,7 +152,14 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span>   {Math.floor(time*(1/2) / 3600)}hr {Math.floor((time*(1/2) % 3600) / 60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>  {((1-((co2["train"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }  </li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["train"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["train"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
         </a>
       </div>
@@ -151,7 +173,14 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span>  {Math.floor(time*2 / 3600)}hr {Math.floor((time*2 % 3600) / 60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>   {((1-((co2["bus"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }  </li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["bus"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["bus"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
         </a>
       </div>
@@ -165,7 +194,14 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span>   {Math.floor(time / 3600)}hr {Math.floor((time % 3600) / 60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>   {((1-((co2["uber"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) } </li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["uber"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["uber"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
         </a>
       </div>
@@ -179,8 +215,18 @@ function App() {
             <li><span className='font-bold text-xl'>Distance:</span> 100km</li>
             <li><span className='font-bold text-xl'>Time:</span> {Math.floor(time / 3600)}hr {Math.floor((time % 3600) / 60)}min</li>
             <li><span className='font-bold text-xl'>Cost:</span> $54</li>
-            <li><span className='font-bold text-xl'>CO2 Score:</span>  {((1-((co2["car"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }  </li>
+            <li><span className='font-bold text-xl'>CO2 Score:</span>
+              <div
+                  className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                  style={{ width: `${((1-((co2["car"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }%` }}
+                >
+                    {((1-((co2["car"] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))))*100).toFixed(2) }
+              </div>
+            </li>
           </ul>
+          <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+</div>
+
         </a>
       </div>
 
