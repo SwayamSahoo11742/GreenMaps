@@ -10,7 +10,7 @@
 GreenMaps is an app aimed to reduce CO2 in transportation
 
 # Demo
-[Project Link](https://peaceful-panda-d2cfcc.netlify.app/)
+[Project Link](https://guileless-naiad-978e7c.netlify.app/)
 
 **NOTE: This is a dev version, which is why the CO2 score is random. The API used to calculate the score is limited and I am on a free trial. I also forgot to program the price calculator**
 
