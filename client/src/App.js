@@ -11,6 +11,9 @@ import "leaflet-routing-machine";
 import L from "leaflet";
 import { useState, useEffect } from "react";
 import { Directions } from "./directions";
+import { Cards } from "./cards";
+import { LocationInput } from "./location";
+
 function Routing({ origin, end, setTime, setDist, getCO2, setDirections }) {
   const map = useMap();
   const [routingControl, setRoutingControl] = useState(null);
@@ -31,7 +34,7 @@ function Routing({ origin, end, setTime, setDist, getCO2, setDirections }) {
         const route = e.routes[0];
         setDist(route.summary.totalDistance); // Distance in meters
         setTime(route.summary.totalTime); // Time in second
-        setDirections(route.instructions)
+        setDirections(route.instructions);
         typeList.forEach((type) => {
           getCO2(type);
         });
@@ -68,18 +71,10 @@ function App() {
     bus: 0,
     train: 0,
   });
-
-  const normalize = (val) => {
-    return (
-      (1 -
-        (co2[val] - Math.min(...Object.values(co2))) / (Math.max(...Object.values(co2)) - Math.min(...Object.values(co2)))) 
-        *100
-    ).toFixed(2);
-  };
+  const [showModal, setShowModal] = useState(true);
 
   const getCO2 = (type) => {
-    console.log(co2);
-    const url = `http://localhost:8000/emmisions?distance=${
+    const url = `https://greenmaps.vercel.app/emmisions?distance=${
       dist / 1000
     }&type=${type}`;
     fetch(url, {
@@ -117,258 +112,24 @@ function App() {
 
   return (
     <div className="App" style={{ position: "relative" }}>
-      {/* Card Component */}
-
-      {/* Walking */}
-      <div className="card-overlay left-5 bottom-2" id="walk">
-        <a
-          href="#"
-          onClick={() => getCO2("walk")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Walking
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>{" "}
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor(dist / 1609.34 / 4)}hr{" "}
-              {Math.floor(((dist / 1609.34 / 3) % 1) * 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span> --No Cost--{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${(
-                    (1 -
-                      (co2["walk"] - Math.min(...Object.values(co2))) /
-                        (Math.max(...Object.values(co2)) -
-                          Math.min(...Object.values(co2)))) *
-                    100
-                  ).toFixed(2)}%`,
-                }}
-              >
-                {(
-                  (1 -
-                    (co2["walk"] - Math.min(...Object.values(co2))) /
-                      (Math.max(...Object.values(co2)) -
-                        Math.min(...Object.values(co2)))) *
-                  100
-                ).toFixed(2)}
-              </div>
-            </li>
-          </ul>
-        </a>
-      </div>
-
-      {/* Bike */}
-      <div className="card-overlay left-5 bottom-5" id="bike">
-        <a
-          href="#"
-          onClick={() => getCO2("bike")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Biking
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>{" "}
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor(dist / 1.609 / 14.1 / 3600)}hr{" "}
-              {Math.floor(((dist / 1.609 / 14.1) % 3600) / 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span> --No Cost--
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${normalize("bike")}%`,
-                  backgroundPosition: `${100 - normalize("bike")}% 0`,
-                }}
-              >
-                {normalize("bike")}
-              </div>
-            </li>
-          </ul>
-        </a>
-      </div>
-
-      {/* Train */}
-      <div className="card-overlay left-5 bottom-5" id="train">
-        <a
-          href="#"
-          onClick={() => getCO2("train")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Train
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>{" "}
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor((time * (1 / 2)) / 3600)}hr{" "}
-              {Math.floor(((time * (1 / 2)) % 3600) / 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span>{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${normalize("train")}%`,
-                  backgroundPosition: `${100 - normalize("train")}% 0`,
-                }}
-              >
-                {normalize("train")}
-              </div>
-            </li>
-          </ul>
-        </a>
-      </div>
-
-      {/* Bus */}
-      <div className="card-overlay left-5 bottom-5" id="bus">
-        <a
-          href="#"
-          onClick={() => getCO2("bus")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Bus
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>{" "}
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor((time * 2) / 3600)}hr{" "}
-              {Math.floor(((time * 2) % 3600) / 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span> $54
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${normalize("bus")}%`,
-                  backgroundPosition: `${100 - normalize("bus")}% 0`,
-                }}
-              >
-                {normalize("bus")}
-              </div>
-            </li>
-          </ul>
-        </a>
-      </div>
-
-      {/* Uber */}
-      <div className="card-overlay left-5 bottom-5" id="uber">
-        <a
-          href="#"
-          onClick={() => getCO2("uber")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Uber
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor(time / 3600)}hr {Math.floor((time % 3600) / 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span> $54
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${normalize("uber")}%`,
-                  backgroundPosition: `${100 - normalize("uber")}% 0`,
-                }}
-              >
-                {normalize("uber")}
-              </div>
-            </li>
-          </ul>
-        </a>
-      </div>
-
-      {/* Car */}
-      <div className="card-overlay left-5 bottom-5" id="car">
-        <a
-          href="#"
-          onClick={() => getCO2("car")}
-          className="block max-w-sm p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-100 dark:bg-emerald-800 dark:border-emerald-700 dark:hover:bg-emerald-700"
-        >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-emerald-900 dark:text-white">
-            Car
-          </h5>
-          <hr></hr>
-          <ul className="list-none text-white text-left">
-            <li>
-              <span className="font-bold text-xl">Distance:</span>{" "}
-              {(dist / 1000).toFixed(1)}km{" "}
-            </li>
-            <li>
-              <span className="font-bold text-xl">Time:</span>{" "}
-              {Math.floor(time / 3600)}hr {Math.floor((time % 3600) / 60)}min
-            </li>
-            <li>
-              <span className="font-bold text-xl">Cost:</span> $54
-            </li>
-            <li>
-              <span className="font-bold text-xl">CO2 Score:</span>
-              <div
-                className="bar text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{
-                  width: `${normalize("car")}%`,
-                  backgroundPosition: `${100 - normalize("car")}% 0`,
-                }}
-              >
-                {normalize("car")}
-              </div>
-            </li>
-          </ul>
-          <div className="w-full bg-emerald-200 rounded-full dark:bg-emerald-700"></div>
-        </a>
-      </div>
-
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 mod bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">This is a dev version, which is why the CO2 score is random. The API used to calculate the score is limited and I am on a free trial</h2>
+            <h2 className="text-xl font-semibold mb-4">I also forgot to program the price calculator</h2>
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-4 w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {/* Main App Content */}
+      <Cards dist={dist} time={time} co2={co2} getCO2={getCO2}/>
+      <LocationInput setOrigin={setOrigin} setEnd={setEnd} origin={origin}/>
       {/* Map Container */}
       <MapContainer
         center={[57.7, 11.95]}
@@ -409,8 +170,7 @@ function App() {
           setDirections={setDirections}
         />
       </MapContainer>
-      <Directions directions={directions} />
-
+      {/* <Directions directions={directions} /> */}
     </div>
   );
 }

@@ -1,8 +1,27 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import requests
 import json
 import random
+import requests
+GEOCODE_KEY = "672664352ffbc257654092exs87e776"
+def geocode(location:str):
+    url = f"https://geocode.maps.co/search?q={location}&api_key={GEOCODE_KEY}"
+    res = requests.post(url)
+    meta = res.json()[0]
+    long, lat = meta["lon"], meta["lat"]
+    return {"lat": lat, "lon": long}
+
+def uberPrice():
+    url =  'https://api.uber.com/v1.2/estimates/price?start_latitude=37.7752315&start_longitude=-122.418075&end_latitude=37.7752415&end_longitude=-122.518075'
+    headers = {
+        "Authorization": "Bearer A7O-K2jRrhb07sCiNKztA7r57y-t_Obr",
+        "Content-Type": "application/json",
+        "Accept-Language": "en_US"
+    }
+    res = requests.get(url=url, headers=headers)
+    print(res.text)
+
+uberPrice()
 AVGWEIGHT = {
   "train" : 16000,
   "bus" : 13834.567
@@ -40,7 +59,8 @@ CI_KEY = "WIr4QZDUPYCPzk2QeSw"
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # Add other origins if needed
+    "http://localhost:3000", 
+    "https://guileless-naiad-978e7c.netlify.app", # Add other origins if needed
 ]
 
 app.add_middleware(
@@ -55,9 +75,14 @@ app.add_middleware(
 def root():
     return {"This is the testing page for the GreenMaps API":"If you see this, why? "}
 
-
+@app.post('/geolocate')
+def geolocate(location: str):
+    coords = geocode(location=location)
+    return coords
+  
+  
 @app.post('/emmisions')
-def dist(distance: float, type: str):
+def emmisions(distance: float, type: str):
     carbon_g = None
 
     if type == "bus" or type == "train":

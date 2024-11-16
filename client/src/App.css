@@ -1,9 +1,7 @@
 .App {
   text-align: center;
 }
-.leaflet-routing-container{
-  visibility: hidden;
-}
+
 .bar {
   background: rgb(237,34,34);
   background: linear-gradient(90deg, rgba(237,34,34,1) 0%, rgba(150,223,24,1) 0%, rgba(1,135,41,1) 100%);
@@ -12,41 +10,21 @@
   transition: width 0.3s ease, background-position 0.3s ease; /* Smooth transition */
 }
 
+.mod{
+  z-index: 10001;
+}
 
 .leaflet-container{
   width: 100vw;
   height: 100vh;
+  z-index: 0;
 }
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-.card-overlay {
-  width: 20%;
-  position: absolute;
-  z-index: 1000;
-}
-
-#bike {
-  bottom: 17%
-}
-
-#train {
-  bottom: 33.5%
-}
-
-#bus {
-  bottom: 50%
-}
-
-#uber {
-  bottom: 66.5%
-}
 
 
-#car {
-  bottom: 83%
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

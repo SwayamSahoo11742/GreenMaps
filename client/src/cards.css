@@ -1,0 +1,60 @@
+
+
+/* Overlay container adjustments */
+
+.card-list {
+    background: rgb(150,223,24);
+    background: linear-gradient(0deg, rgba(150,223,24,1) 0%, rgba(50,187,1,1) 0%, rgba(20,98,0,1) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    max-width: 100vw;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 20vw;
+    max-height: 100vh;
+    overflow-y: auto; /* For scrollable list if necessary */
+    overflow-x: hidden
+}
+
+.card-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+.card-overlay {
+    padding: 2%;
+    width: 100%;
+    position: relative; /* Absolute positioning might not be necessary within `.card-list` */
+    z-index: 1001;
+}
+
+
+.bar {
+    background: rgb(237,34,34);
+    background: linear-gradient(90deg, rgba(237,34,34,1) 0%, rgba(150,223,24,1) 0%, rgba(1,135,41,1) 100%);
+    background-size: 200% 100%; /* Adjusts the gradient size */
+    background-position: 0 0; /* Ensures it starts at the left */
+    transition: width 0.3s ease, background-position 0.3s ease; /* Smooth transition */
+}
+
+#bike {
+    bottom: 17%
+}
+
+#train {
+bottom: 33.5%
+}
+
+#bus {
+bottom: 50%
+}
+
+#uber {
+bottom: 66.5%
+}
+
+
+#car {
+bottom: 83%
+}
+
