@@ -1,29 +1,28 @@
 # GreenMaps
 
 
+![image](https://github.com/user-attachments/assets/f2b1d5a8-b670-4a5f-ad79-19a9c2d776e9)
 
 
 
 
 
-GreenMaps is an app aimed to visualize and access coral bleaching
-
-This project was made for the [HorizonHacks 2024](https://horizonhacks-2024.devpost.com/) Hackathon. (We won!)
+GreenMaps is an app aimed to reduce CO2 in transportation
 
 # Demo
 [Project Link](https://peaceful-panda-d2cfcc.netlify.app/)
 
-**NOTE: The future bleaching pediction does not work as I cannot pay for the API. I was on a free trial during the hackathon**
+**NOTE: This is a dev version, which is why the CO2 score is random. The API used to calculate the score is limited and I am on a free trial. I also forgot to program the price calculator**
 
 # Purpose
 
-- GreenMaps is made to shine light on the vastly underlooked issue of coral bleaching
-- It also aims to provide a method of quantifying the severity and likeliness of future bleaching for a selected reefs
-- This is important as we are going through the 4th global bleaching event right now, which started back in 2023
-- By 2050, 90% of global coral reefs are projected to experience coral bleaching every year
+- GreenMaps is made to show pros and cons of different methods of transport
+- GreenMaps shows prices, CO2 Emmsions, time and distance for several transportation methods
+- Transportation methods include walking, biking, car, Uber, bus, and train
+- It also gives directions for car routes
 
 # Image Gallery
-
+![image](https://github.com/user-attachments/assets/40ae47ee-3617-42fe-9e03-6c84dc30945e)
 
 
 # Tech Stack and Tools
@@ -41,17 +40,21 @@ This project was made for the [HorizonHacks 2024](https://horizonhacks-2024.devp
 
 # Process
 
-### Mapping
-- To map the coral reefs and their bleaching level currently we utilized public data given by the NOAA
-- We then mapped the data into GeoJSON 
-- The GeoJSON was fed into Leaflet to be graphed
+### Server
+- The client is hosted on Netlify
+- Client communicates with [server](https://greenmaps.vercel.app/), which is hosted on vercel
+- Server communcates with geocode API and Carbon Interface API
+- Server sends info to Client
 
-### Future Bleaching Predictions
-- To create predictions, we identified two variables that are primary causes of bleaching: UV radiation and temperature
-- We used Mateomatics API to see past trends in both factors and made a weighted score
-- This score represents whether the area will bleach or heal, and its severity
-- Score < 0, it will bleach
-- Score > 0, it will heal
-- |Score| = severity
+  
+### CO2 Score Calculation
+- CO2 score is simple
+- Retrieve all CO2 emmisions in grams using server
+- normalize between 0 and 1 using min max normalization
+- convert to percent (x100)
+- hard set walking and biking to 100
+
+### Time Calculation
+- Times are calculated very simply right now, by multiplying the provided value for car with a ratio
 
 
